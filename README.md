@@ -35,7 +35,7 @@ El proyecto está diseñado siguiendo las mejores prácticas de modularización:
 ### 2. Configuración de Variables
 Edita tu archivo terraform.tfvars siguiendo el formato del mapa:
 
-```json
+```hcl
 account = "mi-empresa"
 
 tags = {
