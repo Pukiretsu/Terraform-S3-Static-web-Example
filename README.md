@@ -12,6 +12,7 @@ El proyecto está diseñado siguiendo las mejores prácticas de modularización:
 
 ## 📂 Estructura del Repositorio
 
+```text
 .
 ├── main.tf                 # Llamada al módulo y configuración de proveedores
 ├── variables.tf            # Definición de esquemas para los mapas de objetos
@@ -22,6 +23,7 @@ El proyecto está diseñado siguiendo las mejores prácticas de modularización:
 │   └── docs-page/          # Archivos para el sitio B
 └── modules/
     └── s3-static-website/  # Lógica interna del recurso S3
+```
 
 ## 🚀 Guía de Inicio Rápido
 
@@ -31,7 +33,15 @@ El proyecto está diseñado siguiendo las mejores prácticas de modularización:
 * Permisos para crear Buckets S3 y Políticas IAM.
 
 ### 2. Configuración de Variables
-Edita tu archivo terraform.tfvars siguiendo el formato de mapa:
+Edita tu archivo terraform.tfvars siguiendo el formato del mapa:
+
+```json
+account = "mi-empresa"
+
+tags = {
+  Environment = "Dev"
+  Owner       = "Angel-Gonzalez"
+}
 
 s3-static-pages = {
   "marketing" = {
@@ -41,16 +51,29 @@ s3-static-pages = {
     sec_tags    = { CostCenter = "101" }
   }
 }
+```
 
 ### 3. Despliegue
+```bash
+# Inicializar el directorio
+terraform init
+
+# Validar la configuración
+terraform validate
+
+# Ver el plan de ejecución
+terraform plan
+
+# Aplicar los cambios
+terraform apply -auto-approve
 $ terraform init
 $ terraform plan
 $ terraform apply -auto-approve
+```
 
 ## 📄 Características Técnicas
 
 * Global Naming Convention: Los buckets se nombran automáticamente siguiendo el patrón: ause1-s3-${account}-${project}-${name}.
-* MIME Type Auto-Detection: El módulo detecta automáticamente extensiones .html, .css, .js, etc.
 * Automated Public Access: Configura las políticas de GetObject y desactiva los bloqueos de acceso público.
 * Tag Merging: Combina etiquetas globales con etiquetas específicas mediante la función merge().
 
