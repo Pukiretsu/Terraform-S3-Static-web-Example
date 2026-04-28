@@ -1,9 +1,11 @@
 resource "aws_s3_bucket" "this" {
   for_each = var.site_configs
+  # los buckets no pueden tener nombres en mayusculas
   bucket   = lower("ause1-s3-${var.account}-${var.project}-${each.value.bucket_name}")
   tags     = merge(var.global_tags, each.value.sec_tags)
 }
 
+# configuracion para provisionar cada bucket
 resource "aws_s3_bucket_website_configuration" "this" {
   for_each = var.site_configs
   bucket   = aws_s3_bucket.this[each.key].id
@@ -41,24 +43,14 @@ resource "aws_s3_bucket_policy" "this" {
   })
 }
 
-# Soporte para subida de diferentes tipos de archivos comunes
-locals {
-  mime_types = {
-    ".html" = "text/html"
-    ".css"  = "text/css"
-    ".js"   = "application/javascript"
-    ".png"  = "image/png"
-  }
-}
-
-# 
+# toma cada bucket y sube lo que este en su carpeta en src/
 resource "aws_s3_object" "index" {
   for_each = var.site_configs
-
+  
   bucket       = aws_s3_bucket.this[each.key].id
   key          = "index.html"
   
-  # Dynamics: path.root + src/ + the folder defined in tfvars + index.html
+  # Ruta por cada bucket
   source       = "${path.root}/src/${each.value.folder_path}/index.html"
   
   content_type = "text/html"

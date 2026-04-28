@@ -5,7 +5,7 @@ global_tags = {
   "Project"    = "Betek"
 }
 
-# configuracion de pagina estatica
+# configuracion de las paginas estaticas
 s3-static-pages = {
   "index-page" = {
     bucket_name    = "Pagina-index"
@@ -16,7 +16,7 @@ s3-static-pages = {
   "docs-site" = {
     bucket_name    = "docs"
     index_document = "index.html"
-    folder_path    = "docs" # Looks in src/documentation/
+    folder_path    = "docs"
     sec_tags       = { page = "docs", costcenter = "4325" }
   }
 }
